@@ -9,6 +9,9 @@ import org.apache.commons.lang3.Validate;
 
 import java.util.Date;
 
+import static com.luixtech.uidgenerator.core.worker.model.WorkerNode.WORKER_NODE_TYPE_CONTAINER;
+import static com.luixtech.uidgenerator.core.worker.model.WorkerNode.WORKER_NODE_TYPE_PHYSICAL_MACHINE;
+
 /**
  * Represents an implementation of {@link DefaultWorkerIdAssigner},
  * the worker id will be discarded after assigned to the UidGenerator
@@ -66,11 +69,11 @@ public class DefaultWorkerIdAssigner implements WorkerIdAssigner {
     private WorkerNode buildWorkerNode() {
         WorkerNode workerNode = new WorkerNode();
         if (DockerUtils.isDocker()) {
-            workerNode.setType(WorkerNodeType.CONTAINER.value());
+            workerNode.setType(WORKER_NODE_TYPE_CONTAINER);
             workerNode.setHostName(DockerUtils.getDockerHost());
             workerNode.setPort(DockerUtils.getDockerPort());
         } else {
-            workerNode.setType(WorkerNodeType.PHYSICAL_MACHINE.value());
+            workerNode.setType(WORKER_NODE_TYPE_PHYSICAL_MACHINE);
             workerNode.setHostName(NetUtils.getLocalAddress());
             workerNode.setPort(System.currentTimeMillis() + "-" + RandomUtils.nextInt(0, 100_000));
         }

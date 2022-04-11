@@ -24,7 +24,7 @@
     <dependencies>
         <dependency>
             <groupId>com.luixtech</groupId>
-            <artifactId>uid-generator-core</artifactId>
+            <artifactId>luix-uid-generator-core</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>

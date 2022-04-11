@@ -1,12 +1,14 @@
 package com.luixtech.uidgenerator.core.worker.model;
 
-import com.luixtech.uidgenerator.core.worker.WorkerNodeType;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
 public class WorkerNode {
+
+    public static final int WORKER_NODE_TYPE_CONTAINER        = 1;
+    public static final int WORKER_NODE_TYPE_PHYSICAL_MACHINE = 2;
 
     private long   id;
     /**
@@ -22,7 +24,7 @@ public class WorkerNode {
      */
     private String port;
     /**
-     * type of {@link WorkerNodeType}
+     * Work node type
      */
     private int    type;
     /**
