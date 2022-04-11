@@ -1,8 +1,8 @@
 package com.luixtech.uidgenerator.core.buffer;
 
-import com.luixtech.uidgenerator.core.utils.NamingThreadFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -80,11 +80,13 @@ public class BufferPaddingExecutor {
 
         // initialize thread pool
         int cores = Runtime.getRuntime().availableProcessors();
-        bufferPadExecutors = Executors.newFixedThreadPool(cores * 2, new NamingThreadFactory(WORKER_NAME));
+        bufferPadExecutors = Executors.newFixedThreadPool(cores * 2,
+                new BasicThreadFactory.Builder().namingPattern(WORKER_NAME + "-%d").daemon(true).build());
 
         // initialize schedule thread
         if (usingSchedule) {
-            bufferPadSchedule = Executors.newSingleThreadScheduledExecutor(new NamingThreadFactory(SCHEDULE_NAME));
+            bufferPadSchedule = Executors.newSingleThreadScheduledExecutor(
+                    new BasicThreadFactory.Builder().namingPattern(SCHEDULE_NAME + "-%d").daemon(true).build());
         } else {
             bufferPadSchedule = null;
         }
