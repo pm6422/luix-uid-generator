@@ -1,7 +1,7 @@
 package com.luixtech.uidgenerator.core.worker;
 
+import com.luixtech.uidgenerator.core.utils.AddressUtils;
 import com.luixtech.uidgenerator.core.utils.DockerUtils;
-import com.luixtech.uidgenerator.core.utils.NetUtils;
 import com.luixtech.uidgenerator.core.worker.model.WorkerNode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
@@ -74,7 +74,7 @@ public class DefaultWorkerIdAssigner implements WorkerIdAssigner {
             workerNode.setPort(DockerUtils.getDockerPort());
         } else {
             workerNode.setType(WORKER_NODE_TYPE_PHYSICAL_MACHINE);
-            workerNode.setHostName(NetUtils.getLocalAddress());
+            workerNode.setHostName(AddressUtils.getIntranetIp());
             workerNode.setPort(System.currentTimeMillis() + "-" + RandomUtils.nextInt(0, 100_000));
         }
         workerNode.setAppId(appId);
