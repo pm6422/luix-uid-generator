@@ -1,0 +1,82 @@
+package com.luixtech.uidgenerator.core.worker;
+
+import com.luixtech.uidgenerator.core.utils.DockerUtils;
+import com.luixtech.uidgenerator.core.utils.NetUtils;
+import com.luixtech.uidgenerator.core.worker.model.WorkerNode;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.Validate;
+
+import java.util.Date;
+
+/**
+ * Represents an implementation of {@link DefaultWorkerIdAssigner},
+ * the worker id will be discarded after assigned to the UidGenerator
+ */
+@Slf4j
+public class DefaultWorkerIdAssigner implements WorkerIdAssigner {
+
+    private final String            appId;
+    private final boolean           autoCreateTable;
+    private final WorkerNodeService workerNodeService;
+    private final long              maxWorkerId;
+
+
+    public DefaultWorkerIdAssigner(String appId,
+                                   boolean autoCreateTable,
+                                   int workerIdBits,
+                                   WorkerNodeService workerNodeService) {
+        Validate.notNull(appId, "appId must not be null");
+        Validate.notNull(workerNodeService, "workerNodeService must not be null");
+
+        this.appId = appId;
+        this.autoCreateTable = autoCreateTable;
+        this.workerNodeService = workerNodeService;
+        this.maxWorkerId = ~(-1L << workerIdBits);
+    }
+
+    /**
+     * Assign worker id base on database.<p>
+     * If there is host name & port in the environment, we considered that the node runs in Docker container<br>
+     * Otherwise, the node runs on a physical machine.
+     *
+     * @return assigned worker id
+     */
+    @Override
+    public long assignWorkerId() {
+        workerNodeService.createTableIfNotExist(autoCreateTable);
+        // build worker node entity
+        WorkerNode workerNode = buildWorkerNode();
+        // add worker node for new (ignore the same IP + PORT)
+        workerNodeService.insert(workerNode);
+        log.info("Created worker node record: " + workerNode);
+        return getValidWorkerId(workerNode.getId());
+    }
+
+    public long getValidWorkerId(long workerId) {
+        if (workerId > maxWorkerId) {
+            log.warn("workerId {} is greater than maxWorkerId {}", workerId, maxWorkerId);
+        }
+        return workerId % (maxWorkerId + 1);
+    }
+
+    /**
+     * Build worker node entity by IP and PORT
+     */
+    private WorkerNode buildWorkerNode() {
+        WorkerNode workerNode = new WorkerNode();
+        if (DockerUtils.isDocker()) {
+            workerNode.setType(WorkerNodeType.CONTAINER.value());
+            workerNode.setHostName(DockerUtils.getDockerHost());
+            workerNode.setPort(DockerUtils.getDockerPort());
+        } else {
+            workerNode.setType(WorkerNodeType.PHYSICAL_MACHINE.value());
+            workerNode.setHostName(NetUtils.getLocalAddress());
+            workerNode.setPort(System.currentTimeMillis() + "-" + RandomUtils.nextInt(0, 100_000));
+        }
+        workerNode.setAppId(appId);
+        workerNode.setUptime(new Date());
+        workerNode.setCreatedTime(workerNode.getUptime());
+        return workerNode;
+    }
+}
