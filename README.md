@@ -9,20 +9,6 @@ UidGenerator参考了[百度开源的基于Snowflake算法的ID生成器](https:
 * 高可用: 虽说很难实现100%的可用性，但是也要无限接近于100%的可用性
 * 简单易用: 提供spring-boot-starter依赖包，开箱即用
 
-## Snowflake algorithm
-Snowflake算法采用64bits，也就是一个Long长度的数据结构，结构如下：
-```
-+------+----------------------+-------------------+-----------------+-----------+
-| sign |       timestamp      | data center id    | worker node id  | sequence  |
-+------+----------------------+-------------------+-----------------+-----------+
-  1bit          41bits               5bits               5bits         12bits
-```
-* sign: 由于Java中的long类型是带符号的，因此最高位是符号位，正数是0，负数是1，ID都是正数，所以最高位是0
-* timestamp: 41位时间戳(单位为毫秒)，41位时间戳不是存储当前时间的时间戳，而是存储时间戳的差值，差值为当前时间戳 - 开始时间戳，这里的的开始时间戳就是ID生成器开始使用的时间。41位的时间戳可以使用69年，公式为(1L << 41) / (1000L * 60 * 60 * 24 * 365) = 69年
-* data center id: 5位长度可以支持32个data center(1L << 5 = 32)
-* worker node id: 5位长度可以支持32个worker(1L << 5 = 32)，与data center id组合就是32 * 32 = 1024，意味着支持应用启动1024次，按照生产环境有4个pod，一个月启动4次，可以使用5年。
-* sequence: 12位长度可以支持每毫秒产生4096个ID序号
-
 ## Optimized snowflake algorithm
 Snowflake算法的痛点就是没有完整的worker node id生成方案，本ID generator解决了这个问题，其结构分布有些调整，默认结构如下：
 ```
