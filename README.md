@@ -67,7 +67,7 @@ private UidGenerator uidGenerator;
 uidGenerator.generateUid();
 ```
 
-5. 另外提供一个单机环境下静态ID生成器方法，不需要执行2、3、4步骤，它并不保证集群环境下唯一性，可以生成19位数值型ID
+5. 另外提供一个单机环境下静态ID生成器方法，不需要执行2、3、4步骤，它并不保证集群环境下唯一性，可以生成19位数值型ID，如：1672888135850179037
 ```
 IdGenerator.generateTimestampId();
 ```
@@ -79,15 +79,6 @@ Run the following command to build the project:
 ```
 ./mvnw clean verify
 ```
-
-## Run
-
-Run UID Generator Usage Sample with the following command:
-```
-java -jar uid-generator-usage-sample/target/*.jar
-```
-
-Then navigate to [http://localhost:8010](http://localhost:8010) in your browser.
 
 ## References
 [时钟回拨问题咋解决？百度开源的唯一ID生成器UidGenerator](https://zhuanlan.zhihu.com/p/77737855)
