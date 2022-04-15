@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.luixtech</groupId>
         <artifactId>luix-uid-generator</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </parent>
     <artifactId>luix-uid-generator-core</artifactId>
     <name>${project.artifactId}</name>
@@ -22,6 +22,11 @@
         *************************************************************************************
     -->
     <dependencies>
+        <dependency>
+            <groupId>com.luixtech</groupId>
+            <artifactId>luix-utilities</artifactId>
+            <version>1.0.1</version>
+        </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>

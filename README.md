@@ -29,7 +29,7 @@ Snowflake算法的痛点就是没有完整的worker node id生成方案，本ID 
 * org.springframework.jdbc.core.JdbcTemplate(用于分配WorkerId)
 
 ## Latest version
-1.0.0
+1.0.1
 
 ## Usage
 

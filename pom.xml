@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.luixtech</groupId>
     <artifactId>luix-uid-generator</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>pom</packaging>
     <name>luix-uid-generator</name>
     <description>Generate unique ID under multiple nodes environment</description>
@@ -24,6 +24,7 @@
         </developer>
     </developers>
     <modules>
+        <module>luix-utilities</module>
         <module>luix-uid-generator-core</module>
         <module>luix-uid-generator-spring-boot-starter</module>
     </modules>

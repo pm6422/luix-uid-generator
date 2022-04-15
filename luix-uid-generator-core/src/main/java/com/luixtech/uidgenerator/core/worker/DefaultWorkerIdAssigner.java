@@ -1,8 +1,8 @@
 package com.luixtech.uidgenerator.core.worker;
 
-import com.luixtech.uidgenerator.core.utils.AddressUtils;
 import com.luixtech.uidgenerator.core.utils.DockerUtils;
 import com.luixtech.uidgenerator.core.worker.model.WorkerNode;
+import com.luixtech.utilities.network.AddressUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.Validate;
