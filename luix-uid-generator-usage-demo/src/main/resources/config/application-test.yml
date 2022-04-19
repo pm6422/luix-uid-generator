@@ -10,8 +10,3 @@ spring:
     url: jdbc:mysql://phoenix-t.xforceplus.com:22009/monkey_king?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: testing
-server:
-  port: 8010
-# ===================================================================
-# Application specific properties
-# ===================================================================
