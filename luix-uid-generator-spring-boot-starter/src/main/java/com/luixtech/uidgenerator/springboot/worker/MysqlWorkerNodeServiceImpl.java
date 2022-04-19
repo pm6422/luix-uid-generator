@@ -6,8 +6,10 @@ import com.luixtech.uidgenerator.core.worker.model.WorkerNode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.Validate;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
@@ -62,9 +64,9 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void insert(WorkerNode domain) {
-        Map<String, Object> existingOne = jdbcTemplate
-                .queryForMap(String.format(QUERY_SQL, tableName), domain.getAppId(), domain.getHostName());
+        Map<String, Object> existingOne = query(domain.getAppId(), domain.getHostName());
         if (existingOne != null) {
             // Re-use the existing ID
             domain.setId((long) existingOne.get("id"));
@@ -85,5 +87,13 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
 
         Number result = insertJdbc.executeAndReturnKey(parameters);
         domain.setId(result.longValue());
+    }
+
+    private Map<String, Object> query(String appId, String hostName) {
+        try {
+            return jdbcTemplate.queryForMap(String.format(QUERY_SQL, tableName), appId, hostName);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 }
