@@ -72,13 +72,5 @@ uidGenerator.generateUid();
 IdGenerator.generateTimestampId();
 ```
 
-## Build
-
-Run the following command to build the project:
-
-```
-./mvnw clean verify
-```
-
 ## References
 [时钟回拨问题咋解决？百度开源的唯一ID生成器UidGenerator](https://zhuanlan.zhihu.com/p/77737855)
