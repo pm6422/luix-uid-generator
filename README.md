@@ -23,7 +23,7 @@ Snowflake算法的痛点就是没有完整的worker node id生成方案，本ID 
 * sequence: 22位长度可以支持每秒产生419W个ID序号，也就是4194个/ms
 
 ## Requirements
-* JDK 8 ~ 17
+* JDK 8 ~ 18
 * Spring Boot 2.0.0 +
 * MySQL(用于分配WorkerId)
 * org.springframework.jdbc.core.JdbcTemplate(用于分配WorkerId)

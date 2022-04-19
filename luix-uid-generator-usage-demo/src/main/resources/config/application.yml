@@ -1,0 +1,61 @@
+# ===================================================================
+# Spring Boot configuration.
+#
+# This configuration will be overridden by the Spring profile you use,
+# for example application-dev.yml if you use the "dev" profile.
+# Full reference is available at:
+# https://docs.spring.io/spring-boot/docs/2.5.5/reference/html/application-properties.html#application-properties
+# ===================================================================
+app:
+  id: luix-uid-generator-usage-demo
+  name: luix-uid-generator-usage-demo
+  version: 1.0.1
+  companyName: LUIX Technology
+management: # Management http server configuration, used by ManagementServerProperties
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: ['configprops', 'health', 'metrics', 'prometheus']
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    tags:
+      application: ${app.id}
+    export:
+      prometheus:
+        enabled: true
+spring:
+  application:
+    name: ${app.id}
+  profiles:
+    # The commented value for `active` can be replaced with valid spring profiles to load.
+    # Otherwise, it will be filled in by maven when building the WAR file
+    # Either way, it can be overridden by `--spring.profiles.active` value passed in the commandline or `-Dspring.profiles.active` set in `JAVA_OPTS`
+    active: test
+  thymeleaf: #ThymeleafAutoConfiguration
+    mode: HTML
+  banner:
+    location: classpath:config/banner-company.txt
+  # It can be overridden by `--server.port` value passed in the commandline or `-Dserver.port` set in `JAVA_OPTS`
+  port: 8080
+  servlet:
+    session:
+      cookie:
+        name: ${spring.application.name}
+logging:
+  config: classpath:config/logback-spring.xml
+  level:
+    root: INFO
+uid: # UID configuration, used by UidProperties
+  worker:
+    appId: ${spring.application.name}
+# ===================================================================
+# Application specific properties
+# ===================================================================
