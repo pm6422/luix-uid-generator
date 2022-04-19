@@ -73,6 +73,19 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
             return;
         }
 
+        Number result = doInsert(domain);
+        domain.setId(result.longValue());
+    }
+
+    private Map<String, Object> query(String appId, String hostName) {
+        try {
+            return jdbcTemplate.queryForMap(String.format(QUERY_SQL, tableName), appId, hostName);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    private Number doInsert(WorkerNode domain) {
         SimpleJdbcInsert insertJdbc = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName(tableName)
                 .usingGeneratedKeyColumns(COL_ID);
@@ -86,14 +99,6 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
         parameters.put("created_time", domain.getCreatedTime());
 
         Number result = insertJdbc.executeAndReturnKey(parameters);
-        domain.setId(result.longValue());
-    }
-
-    private Map<String, Object> query(String appId, String hostName) {
-        try {
-            return jdbcTemplate.queryForMap(String.format(QUERY_SQL, tableName), appId, hostName);
-        } catch (EmptyResultDataAccessException e) {
-            return null;
-        }
+        return result;
     }
 }
