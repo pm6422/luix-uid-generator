@@ -30,6 +30,8 @@ public class UidProperties {
         private String  workerIdAssignerName      = "defaultWorkerIdAssigner";
         @NotEmpty
         private String  appId;
+        @NotEmpty
+        private String  jdbcTemplateName          = "jdbcTemplate";
     }
 
     @Data

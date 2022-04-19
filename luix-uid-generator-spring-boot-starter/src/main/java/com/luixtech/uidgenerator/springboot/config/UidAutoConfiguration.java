@@ -25,14 +25,18 @@ public class UidAutoConfiguration {
     private ApplicationContext applicationContext;
 
     @Bean
-    public EpochSecondsService mysqlEpochSecondsService(JdbcTemplate jdbcTemplate) {
+    public EpochSecondsService mysqlEpochSecondsService() {
+        JdbcTemplate jdbcTemplate = applicationContext
+                .getBean(uidProperties.getWorker().getJdbcTemplateName(), JdbcTemplate.class);
         Validate.notNull(jdbcTemplate, "jdbcTemplate must not be null, please check your configuration");
         return new MysqlEpochSecondsServiceImpl(uidProperties.getWorker().getWorkerNodeTableName(),
                 jdbcTemplate, uidProperties.getEpochSeconds().getStartDate());
     }
 
     @Bean
-    public WorkerNodeService mysqlWorkerNodeService(JdbcTemplate jdbcTemplate) {
+    public WorkerNodeService mysqlWorkerNodeService() {
+        JdbcTemplate jdbcTemplate = applicationContext
+                .getBean(uidProperties.getWorker().getJdbcTemplateName(), JdbcTemplate.class);
         Validate.notNull(jdbcTemplate, "jdbcTemplate must not be null, please check your configuration");
         return new MysqlWorkerNodeServiceImpl(uidProperties.getWorker().getWorkerNodeTableName(), jdbcTemplate);
     }
