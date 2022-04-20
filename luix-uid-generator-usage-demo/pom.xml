@@ -9,7 +9,7 @@
     </parent>
     <groupId>com.luixtech</groupId>
     <artifactId>luix-uid-generator-usage-demo</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
     <!--
@@ -32,7 +32,7 @@
         <dependency>
             <groupId>com.luixtech</groupId>
             <artifactId>luix-uid-generator-spring-boot-starter</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
