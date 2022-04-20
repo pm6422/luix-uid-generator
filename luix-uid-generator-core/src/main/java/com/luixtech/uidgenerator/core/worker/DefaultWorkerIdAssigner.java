@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.Validate;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import static com.luixtech.uidgenerator.core.worker.model.WorkerNode.WORKER_NODE_TYPE_CONTAINER;
@@ -78,8 +80,8 @@ public class DefaultWorkerIdAssigner implements WorkerIdAssigner {
             workerNode.setPort(System.currentTimeMillis() + "-" + RandomUtils.nextInt(0, 100_000));
         }
         workerNode.setAppId(appId);
-        workerNode.setUptime(new Date());
-        workerNode.setCreatedTime(workerNode.getUptime());
+        workerNode.setUptime(LocalDate.now());
+        workerNode.setCreatedTime(LocalDateTime.now());
         return workerNode;
     }
 }
