@@ -31,7 +31,7 @@ public class UidAutoConfiguration {
 
     @Bean
     public DSLContext luixDslContext() {
-        DataSource dataSource = applicationContext.getBean(uidProperties.getWorker().getDataSourceName(), DataSource.class);
+        DataSource dataSource = applicationContext.getBean(uidProperties.getDataSource().getName(), DataSource.class);
         Validate.notNull(dataSource, "dataSource must not be null, please check your configuration");
         DefaultConfiguration configuration = new DefaultConfiguration();
         configuration.set(dataSource);

@@ -15,9 +15,17 @@ import javax.validation.constraints.Positive;
 @Data
 @Validated
 public class UidProperties {
+    private final DataSource   dataSource   = new DataSource();
     private final Worker       worker       = new Worker();
     private final EpochSeconds epochSeconds = new EpochSeconds();
     private final Bits         bits         = new Bits();
+
+
+    @Data
+    public static class DataSource {
+        @NotEmpty
+        private String name = "dataSource";
+    }
 
     @Data
     public static class Worker {
@@ -30,8 +38,6 @@ public class UidProperties {
         private String  workerIdAssignerName      = "defaultWorkerIdAssigner";
         @NotEmpty
         private String  appId;
-        @NotEmpty
-        private String  dataSourceName            = "dataSource";
     }
 
     @Data
