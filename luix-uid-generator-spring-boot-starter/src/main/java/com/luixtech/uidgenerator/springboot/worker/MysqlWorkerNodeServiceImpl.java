@@ -13,6 +13,7 @@ import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Objects;
 
 @Slf4j
 public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
@@ -62,7 +63,7 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
                 .fetchOne();
         if (existingOne != null) {
             // Re-use the existing ID
-            domain.setId((long) existingOne.get(COL_ID));
+            domain.setId((long) Objects.requireNonNull(existingOne.get(COL_ID)));
             return;
         }
         Long id = getId(domain);
@@ -72,15 +73,15 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
     public Long getId(WorkerNode domain) {
         return dslContext.transactionResult(configuration -> {
             DSLContext dslContext1 = DSL.using(configuration);
-            return dslContext1.insertInto(DSL.table(tableName))
-                    .set(DSL.field("app_id"), domain.getAppId())
-                    .set(DSL.field("host_name"), domain.getHostName())
-                    .set(DSL.field("port"), domain.getPort())
-                    .set(DSL.field("type"), domain.getType())
-                    .set(DSL.field("uptime"), domain.getUptime())
-                    .set(DSL.field("created_time"), domain.getCreatedTime())
-                    .returningResult(DSL.field(COL_ID))
-                    .fetchOne()
+            return Objects.requireNonNull(dslContext1.insertInto(DSL.table(tableName))
+                            .set(DSL.field("app_id"), domain.getAppId())
+                            .set(DSL.field("host_name"), domain.getHostName())
+                            .set(DSL.field("port"), domain.getPort())
+                            .set(DSL.field("type"), domain.getType())
+                            .set(DSL.field("uptime"), domain.getUptime())
+                            .set(DSL.field("created_time"), domain.getCreatedTime())
+                            .returningResult(DSL.field(COL_ID))
+                            .fetchOne())
                     .into(Long.class);
         });
     }
