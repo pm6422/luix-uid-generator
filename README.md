@@ -1,13 +1,13 @@
 # luix-uid-generator
 UidGenerator参考了[百度开源的基于Snowflake算法的ID生成器](https://github.com/baidu/uid-generator)
-。可以在分布式集群环境下生成全局唯一的long型的ID。它通过消费未来时间克服了雪花算法的并发限制。UidGenerator提前生成ID并缓存在RingBuffer中。同时也解决了时钟回拨(clock moved backwards)的问题。
-压测结果单个实例的QPS能超过6,000,000。并且同时适用于物理机和Docker虚拟机环境。另外做了非常多的优化，比如：Bits分布调整、delta seconds自动赋值、worker node ID重复使用提高系统使用年限、增加更高的吞吐能力、同时支持mybatis和JPA。
+。可以在分布式集群环境下生成全局唯一的long型的ID(如：1310669462831107)。通过消费未来时间克服了雪花算法的并发限制。UidGenerator提前生成ID并缓存在RingBuffer中。同时也解决了时钟回拨(clock moved backwards)的问题。
+压测结果单个实例的QPS能超过6,000,000。并且同时适用于物理机和Docker虚拟机环境。另外做了非常多的优化，比如：Bits分布调整、delta seconds自动赋值、worker node ID重复使用提高系统使用年限、增加更高的吞吐能力。
 
 ## Features
 * 全局唯一的ID: 无论怎样都不能重复
 * 高性能: 本地生成耗时少，默认每秒支持生成419万个ID
 * 高可用: 虽说很难实现100%的可用性，但是也要无限接近于100%的可用性
-* 简单易用: 提供spring-boot-starter依赖包，开箱即用
+* 简单易用: 提供luix-uid-spring-boot-starter依赖包，开箱即用
 
 ## Optimized snowflake algorithm
 Snowflake算法的痛点就是没有完整的worker node id生成方案，本ID generator解决了这个问题，其结构分布有些调整，默认结构如下：
