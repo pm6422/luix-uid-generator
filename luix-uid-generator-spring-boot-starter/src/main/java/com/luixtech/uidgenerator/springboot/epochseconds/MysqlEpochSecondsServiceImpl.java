@@ -41,7 +41,7 @@ public class MysqlEpochSecondsServiceImpl implements EpochSecondsService {
             return DateUtils.truncate(firstDate, Calendar.DATE).getTime() / 1000;
         } catch (Exception e) {
             // Re-throw it as UidGenerateException
-            throw new UidGenerateException("Failed to get first created time from table " + tableName, e);
+            throw new UidGenerateException("Failed to get created time column value of first record from table " + tableName, e);
         }
     }
 }
