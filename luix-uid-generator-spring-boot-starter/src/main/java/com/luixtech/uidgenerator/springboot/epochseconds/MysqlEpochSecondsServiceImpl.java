@@ -6,13 +6,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jooq.DSLContext;
-import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class MysqlEpochSecondsServiceImpl implements EpochSecondsService {
 
