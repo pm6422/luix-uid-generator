@@ -10,6 +10,7 @@ import com.luixtech.uidgenerator.springboot.epochseconds.MysqlEpochSecondsServic
 import com.luixtech.uidgenerator.springboot.worker.MysqlWorkerNodeServiceImpl;
 import org.apache.commons.lang3.Validate;
 import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 import org.jooq.impl.DefaultConfiguration;
 import org.jooq.impl.DefaultDSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class UidAutoConfiguration {
         DefaultConfiguration configuration = new DefaultConfiguration();
         configuration.set(dataSource);
         configuration.settings().setRenderSchema(false);
-        return new DefaultDSLContext(configuration);
+        return DSL.using(configuration);
     }
 
     @Bean
