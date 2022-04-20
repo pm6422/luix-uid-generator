@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.luixtech</groupId>
         <artifactId>luix-uid-generator</artifactId>
-        <version>1.0.3</version>
+        <version>1.0.4</version>
     </parent>
     <artifactId>luix-uid-generator-spring-boot-starter</artifactId>
     <name>${project.artifactId}</name>
@@ -25,7 +25,7 @@
         <dependency>
             <groupId>com.luixtech</groupId>
             <artifactId>luix-uid-generator-core</artifactId>
-            <version>1.0.3</version>
+            <version>1.0.4</version>
         </dependency>
         <dependency>
             <groupId>org.jooq</groupId>

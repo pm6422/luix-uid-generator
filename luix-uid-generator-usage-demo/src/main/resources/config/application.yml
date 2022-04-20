@@ -9,7 +9,7 @@
 app:
   id: luix-uid-generator-usage-demo
   name: luix-uid-generator-usage-demo
-  version: 1.0.3
+  version: 1.0.4
   companyName: LUIX Technology
 management: # Management http server configuration, used by ManagementServerProperties
   endpoints:
