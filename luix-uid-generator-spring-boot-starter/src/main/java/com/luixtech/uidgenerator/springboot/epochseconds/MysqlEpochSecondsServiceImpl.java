@@ -11,6 +11,7 @@ import org.jooq.impl.DSL;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class MysqlEpochSecondsServiceImpl implements EpochSecondsService {
 
@@ -34,11 +35,11 @@ public class MysqlEpochSecondsServiceImpl implements EpochSecondsService {
             return Instant.parse(specifiedEpochStr + "T00:00:00Z").getEpochSecond();
         }
         try {
-            Date firstDate = dslContext.select(DSL.field("created_time"))
-                    .from(tableName)
-                    .orderBy(DSL.field("created_time"))
-                    .limit(1)
-                    .fetchOne()
+            Date firstDate = Objects.requireNonNull(dslContext.select(DSL.field("created_time"))
+                            .from(tableName)
+                            .orderBy(DSL.field("created_time"))
+                            .limit(1)
+                            .fetchOne())
                     .into(Date.class);
             // Truncate to zero clock
             return DateUtils.truncate(firstDate, Calendar.DATE).getTime() / 1000;
