@@ -5,31 +5,26 @@ import com.luixtech.uidgenerator.core.exception.UidGenerateException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.time.DateUtils;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.impl.DSL;
 
-import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 
 public class MysqlEpochSecondsServiceImpl implements EpochSecondsService {
 
-    private static final String FIRST_CREATED_TIME_SQL =
-            "select created_time "
-                    + "from {0} "
-                    + "order by created_time asc " +
-                    "LIMIT 1;";
+    private final String     tableName;
+    private final DSLContext dslContext;
+    private final String     specifiedEpochStr;
 
-    private final String       tableName;
-    private final JdbcTemplate jdbcTemplate;
-    private final String       specifiedEpochStr;
-
-    public MysqlEpochSecondsServiceImpl(String tableName, JdbcTemplate jdbcTemplate, String specifiedEpochStr) {
+    public MysqlEpochSecondsServiceImpl(String tableName, DSLContext dslContext, String specifiedEpochStr) {
         Validate.notNull(tableName, "tableName must not be null");
-        Validate.notNull(jdbcTemplate, "jdbcTemplate must not be null");
+        Validate.notNull(dslContext, "dslContext must not be null");
 
         this.tableName = tableName;
-        this.jdbcTemplate = jdbcTemplate;
+        this.dslContext = dslContext;
         this.specifiedEpochStr = specifiedEpochStr;
     }
 
@@ -40,7 +35,8 @@ public class MysqlEpochSecondsServiceImpl implements EpochSecondsService {
             return Instant.parse(specifiedEpochStr + "T00:00:00Z").getEpochSecond();
         }
         try {
-            Date firstDate = jdbcTemplate.queryForObject(MessageFormat.format(FIRST_CREATED_TIME_SQL, tableName), Date.class);
+            Record firstRecord = dslContext.selectFrom(tableName).orderBy(DSL.field("created_time")).limit(1).fetchOne();
+            Date firstDate = (Date) firstRecord.getValue(DSL.field("created_time"));
             // Truncate to zero clock
             return DateUtils.truncate(firstDate, Calendar.DATE).getTime() / 1000;
         } catch (Exception e) {

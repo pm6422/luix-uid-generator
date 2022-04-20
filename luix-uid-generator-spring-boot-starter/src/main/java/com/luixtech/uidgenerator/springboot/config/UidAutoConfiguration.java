@@ -9,12 +9,17 @@ import com.luixtech.uidgenerator.core.worker.WorkerNodeService;
 import com.luixtech.uidgenerator.springboot.epochseconds.MysqlEpochSecondsServiceImpl;
 import com.luixtech.uidgenerator.springboot.worker.MysqlWorkerNodeServiceImpl;
 import org.apache.commons.lang3.Validate;
+import org.jooq.DSLContext;
+import org.jooq.impl.DefaultConfiguration;
+import org.jooq.impl.DefaultDSLContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
 
 @EnableConfigurationProperties({UidProperties.class})
 public class UidAutoConfiguration {
@@ -25,20 +30,24 @@ public class UidAutoConfiguration {
     private ApplicationContext applicationContext;
 
     @Bean
-    public EpochSecondsService mysqlEpochSecondsService() {
-        JdbcTemplate jdbcTemplate = applicationContext
-                .getBean(uidProperties.getWorker().getJdbcTemplateName(), JdbcTemplate.class);
-        Validate.notNull(jdbcTemplate, "jdbcTemplate must not be null, please check your configuration");
-        return new MysqlEpochSecondsServiceImpl(uidProperties.getWorker().getWorkerNodeTableName(),
-                jdbcTemplate, uidProperties.getEpochSeconds().getStartDate());
+    public DSLContext luixDslContext() {
+        DataSource dataSource = applicationContext.getBean(uidProperties.getWorker().getDataSourceName(), DataSource.class);
+        Validate.notNull(dataSource, "dataSource must not be null, please check your configuration");
+        DefaultConfiguration configuration = new DefaultConfiguration();
+        configuration.set(dataSource);
+        configuration.settings().setRenderSchema(false);
+        return new DefaultDSLContext(configuration);
     }
 
     @Bean
-    public WorkerNodeService mysqlWorkerNodeService() {
-        JdbcTemplate jdbcTemplate = applicationContext
-                .getBean(uidProperties.getWorker().getJdbcTemplateName(), JdbcTemplate.class);
-        Validate.notNull(jdbcTemplate, "jdbcTemplate must not be null, please check your configuration");
-        return new MysqlWorkerNodeServiceImpl(uidProperties.getWorker().getWorkerNodeTableName(), jdbcTemplate);
+    public WorkerNodeService mysqlWorkerNodeService(@Autowired @Qualifier("luixDslContext") DSLContext dslContext) {
+        return new MysqlWorkerNodeServiceImpl(uidProperties.getWorker().getWorkerNodeTableName(), dslContext);
+    }
+
+    @Bean
+    public EpochSecondsService mysqlEpochSecondsService(@Autowired @Qualifier("luixDslContext") DSLContext dslContext) {
+        return new MysqlEpochSecondsServiceImpl(uidProperties.getWorker().getWorkerNodeTableName(), dslContext,
+                uidProperties.getEpochSeconds().getStartDate());
     }
 
     @Bean

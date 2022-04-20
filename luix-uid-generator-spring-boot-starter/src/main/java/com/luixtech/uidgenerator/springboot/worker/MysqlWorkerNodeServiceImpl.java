@@ -5,52 +5,42 @@ import com.luixtech.uidgenerator.core.worker.WorkerNodeService;
 import com.luixtech.uidgenerator.core.worker.model.WorkerNode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.Validate;
+import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.impl.DSL;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
 
-    private static final String       COL_ID          = "id";
-    private static final String       TABLE_QUERY_SQL =
-            "select count(*) "
-                    + "from information_schema.tables "
-                    + "where table_name = ?" +
-                    "LIMIT 1";
-    private static final String       QUERY_SQL       =
-            "select * "
-                    + "from %s "
-                    + "where app_id = ? and host_name = ? " +
-                    "LIMIT 1";
-    private final        String       tableName;
-    private final        JdbcTemplate jdbcTemplate;
+    private static final String     COL_ID = "id";
+    private final        String     tableName;
+    private final        DSLContext dslContext;
 
-    public MysqlWorkerNodeServiceImpl(String tableName, JdbcTemplate jdbcTemplate) {
+    public MysqlWorkerNodeServiceImpl(String tableName, DSLContext dslContext) {
         Validate.notNull(tableName, "tableName must not be null");
-        Validate.notNull(jdbcTemplate, "jdbcTemplate must not be null");
+        Validate.notNull(dslContext, "dslContext must not be null");
+
         this.tableName = tableName;
-        this.jdbcTemplate = jdbcTemplate;
+        this.dslContext = dslContext;
     }
 
     @Override
     public void createTableIfNotExist(boolean autoCreateTable) {
         try {
-            Integer result = jdbcTemplate.queryForObject(TABLE_QUERY_SQL, Integer.class, tableName);
-            if (result == null || result == 0) {
+            Record workerNodeTableRecord = dslContext.selectFrom("information_schema.tables")
+                    .where("table_name = ?", tableName)
+                    .fetchOne();
+            if (workerNodeTableRecord == null) {
                 String sql = StreamUtils.copyToString(new ClassPathResource("id_generator_worker_node.sql").getInputStream(),
                         Charset.defaultCharset());
                 if (autoCreateTable) {
                     // If table does not exist, create it
-                    jdbcTemplate.execute(String.format(sql, tableName));
+                    dslContext.execute(String.format(sql, tableName));
                     log.info("Automatically created table {}", tableName);
                 } else {
                     throw new UidGenerateException("Worker node table does not exist, please create it manually with sql: \n"
@@ -64,41 +54,35 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void insert(WorkerNode domain) {
-        Map<String, Object> existingOne = query(domain.getAppId(), domain.getHostName());
+        Record existingOne = dslContext.selectFrom(tableName)
+                .where("app_id = ?", domain.getId())
+                .and("host_name = ?", domain.getHostName())
+                .fetchOne();
         if (existingOne != null) {
             // Re-use the existing ID
-            domain.setId((long) existingOne.get("id"));
+            domain.setId((long) existingOne.get(COL_ID));
             return;
         }
-
-        Number result = doInsert(domain);
-        domain.setId(result.longValue());
+        Long id = getId(domain);
+        domain.setId(id);
     }
 
-    private Map<String, Object> query(String appId, String hostName) {
-        try {
-            return jdbcTemplate.queryForMap(String.format(QUERY_SQL, tableName), appId, hostName);
-        } catch (EmptyResultDataAccessException e) {
-            return null;
-        }
-    }
-
-    private Number doInsert(WorkerNode domain) {
-        SimpleJdbcInsert insertJdbc = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName(tableName)
-                .usingGeneratedKeyColumns(COL_ID);
-
-        Map<String, Object> parameters = new HashMap<>(5);
-        parameters.put("app_id", domain.getAppId());
-        parameters.put("host_name", domain.getHostName());
-        parameters.put("port", domain.getPort());
-        parameters.put("type", domain.getType());
-        parameters.put("uptime", domain.getUptime());
-        parameters.put("created_time", domain.getCreatedTime());
-
-        Number result = insertJdbc.executeAndReturnKey(parameters);
-        return result;
+    public Long getId(WorkerNode domain) {
+        Long id = dslContext.transactionResult(configuration -> {
+            DSLContext dslContext = DSL.using(configuration);
+            Long result = dslContext.insertInto(DSL.table(tableName))
+                    .set(DSL.field("app_id"), domain.getAppId())
+                    .set(DSL.field("host_name"), domain.getHostName())
+                    .set(DSL.field("port"), domain.getPort())
+                    .set(DSL.field("type"), domain.getType())
+                    .set(DSL.field("uptime"), domain.getUptime())
+                    .set(DSL.field("created_time"), domain.getCreatedTime())
+                    .returningResult(DSL.field(COL_ID))
+                    .fetchOne()
+                    .into(Long.class);
+            return result;
+        });
+        return id;
     }
 }

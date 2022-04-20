@@ -31,7 +31,7 @@ public class UidProperties {
         @NotEmpty
         private String  appId;
         @NotEmpty
-        private String  jdbcTemplateName          = "jdbcTemplate";
+        private String  dataSourceName            = "dataSource";
     }
 
     @Data
