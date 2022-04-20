@@ -70,9 +70,9 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
     }
 
     public Long getId(WorkerNode domain) {
-        Long id = dslContext.transactionResult(configuration -> {
-            DSLContext dslContext = DSL.using(configuration);
-            Long result = dslContext.insertInto(DSL.table(tableName))
+        return dslContext.transactionResult(configuration -> {
+            DSLContext dslContext1 = DSL.using(configuration);
+            return dslContext1.insertInto(DSL.table(tableName))
                     .set(DSL.field("app_id"), domain.getAppId())
                     .set(DSL.field("host_name"), domain.getHostName())
                     .set(DSL.field("port"), domain.getPort())
@@ -82,8 +82,6 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
                     .returningResult(DSL.field(COL_ID))
                     .fetchOne()
                     .into(Long.class);
-            return result;
         });
-        return id;
     }
 }
