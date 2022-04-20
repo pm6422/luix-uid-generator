@@ -58,6 +58,7 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
         Record existingOne = dslContext.selectFrom(tableName)
                 .where("app_id = ?", domain.getId())
                 .and("host_name = ?", domain.getHostName())
+                .limit(1)
                 .fetchOne();
         if (existingOne != null) {
             // Re-use the existing ID
