@@ -201,15 +201,6 @@
                         </target>
                     </generator>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>jooq-codegen</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <phase>generate-sources</phase>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
