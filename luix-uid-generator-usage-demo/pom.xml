@@ -196,7 +196,7 @@
                             <springAnnotations>true</springAnnotations>
                         </generate>
                         <target>
-                            <packageName>com.luixtech.uidgenerator.domain</packageName>
+                            <packageName>com.luixtech.uidgenerator.usage.demo.domain</packageName>
                             <directory>src/main/java</directory>
                         </target>
                     </generator>
