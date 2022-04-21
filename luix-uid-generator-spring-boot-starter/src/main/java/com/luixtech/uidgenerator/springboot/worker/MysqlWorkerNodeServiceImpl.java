@@ -66,11 +66,11 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
             domain.setId((long) Objects.requireNonNull(existingOne.get(COL_ID)));
             return;
         }
-        Long id = getId(domain);
+        Long id = insertAndReturnId(domain);
         domain.setId(id);
     }
 
-    public Long getId(WorkerNode domain) {
+    public Long insertAndReturnId(WorkerNode domain) {
         return dslContext.transactionResult(configuration -> {
             DSLContext dslContext1 = DSL.using(configuration);
             return Objects.requireNonNull(dslContext1.insertInto(DSL.table(tableName))
