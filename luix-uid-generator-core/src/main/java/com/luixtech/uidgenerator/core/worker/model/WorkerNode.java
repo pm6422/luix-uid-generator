@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 @Data
 public class WorkerNode {
 
-    public static final int WORKER_NODE_TYPE_PHYSICAL_MACHINE = 1;
-    public static final int WORKER_NODE_TYPE_CONTAINER        = 2;
+    public static final String WORKER_NODE_TYPE_PHYSICAL_MACHINE = "P";
+    public static final String WORKER_NODE_TYPE_CONTAINER        = "C";
 
     private long          id;
     /**
@@ -17,13 +17,13 @@ public class WorkerNode {
      */
     private String        appId;
     /**
-     * HostName for CONTAINER: or IP for PHYSICAL_MACHINE
+     * HostName for CONTAINER or IP for PHYSICAL_MACHINE
      */
     private String        hostName;
     /**
-     * Work node type
+     * Work node type: P - Physical Machine, C - Container
      */
-    private int           type;
+    private String        type;
     /**
      * Uptime
      */
