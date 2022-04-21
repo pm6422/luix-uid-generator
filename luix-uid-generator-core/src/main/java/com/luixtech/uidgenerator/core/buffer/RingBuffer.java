@@ -188,7 +188,7 @@ public class RingBuffer {
      * Discard policy for {@link RejectedPutBufferHandler}, we just do logging
      */
     protected void discardPutBuffer(RingBuffer ringBuffer, long uid) {
-        log.warn("Rejected putting buffer for uid:{}. {}", uid, ringBuffer);
+        log.warn("Rejected putting buffer for uid: {}. {}", uid, ringBuffer);
     }
 
     /**

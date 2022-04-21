@@ -104,7 +104,7 @@ public class CachedUidGenerator extends DefaultUidGenerator {
         int bufferSize = ((int) bitsAllocator.getMaxSequence() + 1) << boostPower;
         int paddingFactor = RingBuffer.DEFAULT_PADDING_PERCENT;
         this.ringBuffer = new RingBuffer(bufferSize, paddingFactor);
-        log.info("Initialized ring buffer size:{}, paddingFactor:{}", bufferSize, paddingFactor);
+        log.info("Initialized ring buffer size: {}, paddingFactor: {}", bufferSize, paddingFactor);
 
         // initialize RingBufferPaddingExecutor
         boolean usingSchedule = (scheduleInterval != null);
@@ -113,7 +113,7 @@ public class CachedUidGenerator extends DefaultUidGenerator {
             bufferPaddingExecutor.setScheduleInterval(scheduleInterval);
         }
 
-        log.info("Initialized BufferPaddingExecutor. Using schedule:{}, interval:{}", usingSchedule, scheduleInterval);
+        log.info("Initialized BufferPaddingExecutor with usingSchedule: {}, interval: {}", usingSchedule, scheduleInterval);
 
         // set rejected put/take handle policy
         this.ringBuffer.setBufferPaddingExecutor(bufferPaddingExecutor);
