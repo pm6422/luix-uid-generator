@@ -76,7 +76,6 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
             return Objects.requireNonNull(dslContext1.insertInto(DSL.table(tableName))
                             .set(DSL.field("app_id"), domain.getAppId())
                             .set(DSL.field("host_name"), domain.getHostName())
-                            .set(DSL.field("port"), domain.getPort())
                             .set(DSL.field("type"), domain.getType())
                             .set(DSL.field("uptime"), domain.getUptime())
                             .set(DSL.field("created_time"), domain.getCreatedTime())

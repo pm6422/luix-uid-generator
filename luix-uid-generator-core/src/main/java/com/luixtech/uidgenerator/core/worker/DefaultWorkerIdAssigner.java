@@ -66,18 +66,16 @@ public class DefaultWorkerIdAssigner implements WorkerIdAssigner {
     }
 
     /**
-     * Build worker node entity by IP and PORT
+     * Build worker node entity
      */
     private WorkerNode buildWorkerNode() {
         WorkerNode workerNode = new WorkerNode();
         if (DockerUtils.isDocker()) {
             workerNode.setType(WORKER_NODE_TYPE_CONTAINER);
             workerNode.setHostName(DockerUtils.getDockerHost());
-            workerNode.setPort(DockerUtils.getDockerPort());
         } else {
             workerNode.setType(WORKER_NODE_TYPE_PHYSICAL_MACHINE);
             workerNode.setHostName(AddressUtils.getIntranetIp());
-            workerNode.setPort(System.currentTimeMillis() + "-" + RandomUtils.nextInt(0, 100_000));
         }
         workerNode.setAppId(appId);
         workerNode.setUptime(LocalDate.now());

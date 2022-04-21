@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 @Data
 public class WorkerNode {
 
-    public static final int WORKER_NODE_TYPE_CONTAINER        = 1;
-    public static final int WORKER_NODE_TYPE_PHYSICAL_MACHINE = 2;
+    public static final int WORKER_NODE_TYPE_PHYSICAL_MACHINE = 1;
+    public static final int WORKER_NODE_TYPE_CONTAINER        = 2;
 
     private long          id;
     /**
@@ -17,13 +17,9 @@ public class WorkerNode {
      */
     private String        appId;
     /**
-     * Type of CONTAINER: HostName, ACTUAL : IP.
+     * HostName for CONTAINER: or IP for PHYSICAL_MACHINE
      */
     private String        hostName;
-    /**
-     * Type of CONTAINER: Port, ACTUAL : Timestamp + Random(0-10000)
-     */
-    private String        port;
     /**
      * Work node type
      */
