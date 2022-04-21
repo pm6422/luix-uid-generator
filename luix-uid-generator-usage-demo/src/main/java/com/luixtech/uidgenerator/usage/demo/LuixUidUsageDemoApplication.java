@@ -17,7 +17,8 @@ public class LuixUidUsageDemoApplication {
      * @param args program arguments
      */
     public static void main(String[] args) {
-        // That message is located in the org.jooq.impl.DefaultRenderContext source file and it is using the org.jooq.Constants logger.
+        // Disable JOOQ's self-ad message, that message is located in the org.jooq.impl.DefaultRenderContext source file,
+        // and it is using the org.jooq.Constants logger.
         System.setProperty("org.jooq.no-logo", "true");
         SpringApplication.run(LuixUidUsageDemoApplication.class, args);
     }
