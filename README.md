@@ -71,5 +71,8 @@ uidGenerator.generateUid();
 IdGenerator.generateTimestampId();
 ```
 
+## Official Website
+http://www.luixtech.com
+
 ## References
 [时钟回拨问题咋解决？百度开源的唯一ID生成器UidGenerator](https://zhuanlan.zhihu.com/p/77737855)
