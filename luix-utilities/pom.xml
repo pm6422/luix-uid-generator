@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.luixtech</groupId>
         <artifactId>luix-uid-generator</artifactId>
-        <version>1.0.5</version>
+        <version>1.0.6</version>
     </parent>
     <artifactId>luix-utilities</artifactId>
     <name>${project.artifactId}</name>
