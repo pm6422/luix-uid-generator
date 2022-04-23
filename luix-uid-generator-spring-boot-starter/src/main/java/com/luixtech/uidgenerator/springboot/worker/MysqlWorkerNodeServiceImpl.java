@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.Validate;
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.Table;
 import org.jooq.impl.DSL;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.StreamUtils;
@@ -33,10 +34,7 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
     @Override
     public void createTableIfNotExist(boolean autoCreateTable) {
         try {
-            Record workerNodeTableRecord = dslContext.selectFrom("information_schema.tables")
-                    .where("table_name = ?", tableName)
-                    .fetchOne();
-            if (workerNodeTableRecord == null) {
+            if (!tableExists(dslContext, tableName)) {
                 String sql = StreamUtils.copyToString(new ClassPathResource("id_generator_worker_node.sql").getInputStream(),
                         Charset.defaultCharset());
                 if (autoCreateTable) {
@@ -52,6 +50,15 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
             // Re-throw it as UidGenerateException
             throw new UidGenerateException("Failed to create worker node table", e);
         }
+    }
+
+    public boolean tableExists(DSLContext context, String tableName) {
+        for (Table t : context.meta().getTables()) {
+            if (t.getName().equalsIgnoreCase(tableName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
