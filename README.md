@@ -28,7 +28,7 @@ Snowflake算法的痛点就是没有完整的worker node id生成方案，本ID 
 * MySQL或其他支持SQL数据库(用于分配WorkerId)
 
 ## Latest version
-1.0.7
+1.0.8
 
 ## Usage
 
