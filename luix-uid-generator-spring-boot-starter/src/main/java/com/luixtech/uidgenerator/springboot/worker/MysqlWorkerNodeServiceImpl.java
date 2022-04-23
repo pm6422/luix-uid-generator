@@ -32,10 +32,15 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
 
     @Override
     public void createTableIfNotExist(boolean autoCreateTable) {
+        String sql;
+        try {
+            sql = StreamUtils.copyToString(new ClassPathResource("id_generator_worker_node.sql").getInputStream(),
+                    Charset.defaultCharset());
+        } catch (IOException e) {
+            throw new UidGenerateException("Failed to load sql file", e);
+        }
         try {
             if (!tableExists(dslContext, tableName)) {
-                String sql = StreamUtils.copyToString(new ClassPathResource("id_generator_worker_node.sql").getInputStream(),
-                        Charset.defaultCharset());
                 if (autoCreateTable) {
                     // If table does not exist, create it
                     dslContext.execute(String.format(sql, tableName));
@@ -45,9 +50,10 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
                             + String.format(sql, tableName));
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             // Re-throw it as UidGenerateException
-            throw new UidGenerateException("Failed to create worker node table", e);
+            throw new UidGenerateException("Failed to create worker node table, please create it manually with sql: \n"
+                    + String.format(sql, tableName), e);
         }
     }
 
