@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.Validate;
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.jooq.Table;
 import org.jooq.impl.DSL;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.StreamUtils;
@@ -53,12 +52,7 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
     }
 
     public boolean tableExists(DSLContext context, String tableName) {
-        for (Table t : context.meta().getTables()) {
-            if (t.getName().equalsIgnoreCase(tableName)) {
-                return true;
-            }
-        }
-        return false;
+        return context.meta().getTables().stream().anyMatch(table -> table.getName().equalsIgnoreCase(tableName));
     }
 
     @Override
