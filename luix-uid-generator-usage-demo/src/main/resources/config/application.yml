@@ -16,7 +16,11 @@ management: # Management http server configuration, used by ManagementServerProp
     web:
       base-path: /management
       exposure:
-        include: ['configprops', 'health', 'metrics', 'prometheus']
+        include:
+          - configprops
+          - health
+          - metrics
+          - prometheus
   endpoint:
     health:
       enabled: true
@@ -61,9 +65,13 @@ server:
   # It can be overridden by `--server.port` value passed in the commandline or `-Dserver.port` set in `JAVA_OPTS`
   port: 3333
 logging:
-  config: classpath:config/logback-spring.xml
   level:
     root: INFO
+    org.springframework.boot.devtools.autoconfigure: INFO
+    org.apache: WARN
+    org.mongodb.driver: WARN
+    sun.rmi: WARN
+    jdk.event.security: WARN
 uid: # UID configuration, used by UidProperties
   worker:
     appId: ${spring.application.name}
