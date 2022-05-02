@@ -1,6 +1,6 @@
 # luix-uid-generator
 UidGenerator参考了[百度开源的基于Snowflake算法的ID生成器](https://github.com/baidu/uid-generator)
-。可以在分布式集群环境下生成全局唯一的long型的ID(如：1310669462831107)。通过消费未来时间克服了雪花算法的并发限制。UidGenerator提前生成ID并缓存在RingBuffer中。同时也解决了时钟回拨(clock moved backwards)的问题。
+。可以在分布式集群环境下生成全局唯一的long型的ID(如：1310669462831107)。通过消费未来时间克服了Snowflake算法的并发限制。UidGenerator提前生成ID并缓存在RingBuffer中。同时也解决了时钟回拨(clock moved backwards)的问题。
 压测结果单个实例的QPS能超过6,000,000。并且同时适用于物理机和Docker虚拟机环境。另外做了非常多的优化，比如：Bits分布调整、delta seconds自动赋值、worker node ID重复使用提高系统使用年限、增加更高的吞吐能力。
 
 ## Features
