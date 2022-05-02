@@ -37,7 +37,7 @@ Snowflake算法的痛点就是没有完整的worker node id生成方案，本ID 
 <dependency>
     <groupId>com.luixtech</groupId>
     <artifactId>uid-generator-spring-boot-starter</artifactId>
-    <version>{latestVersion}</version>
+    <version>${latestVersion}</version>
 </dependency>
 ```
 2. yml配置文件中增加配置信息，配置参数参见com.luixtech.uidgenerator.springboot.config.UidProperties
