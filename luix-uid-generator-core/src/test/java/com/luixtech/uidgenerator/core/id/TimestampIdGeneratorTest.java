@@ -1,6 +1,6 @@
 package com.luixtech.uidgenerator.core.id;
 
-import com.luixtech.uidgenerator.core.utils.ConcurrentHashSet;
+import com.luixtech.utilities.collection.ConcurrentHashSet;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.data.TemporalUnitLessThanOffset;
 import org.junit.jupiter.api.Test;
