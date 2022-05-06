@@ -1,13 +1,11 @@
 package com.luixtech.uidgenerator.usage.demo;
 
 import com.luixtech.uidgenerator.springboot.config.EnableUidGenerator;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @EnableUidGenerator
-@Slf4j
 public class LuixUidUsageDemoApplication {
 
     /**
