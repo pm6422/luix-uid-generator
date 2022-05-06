@@ -22,9 +22,9 @@ public class ServiceLoaderTests  {
     public void testPrototypeInitialization() {
         // 多例模式下在每次获取的时候进行实例化
         assertThat(ServiceLoader.forClass(SpiPrototypeInterface.class)
-                .load("singleton").spiHello()).isEqualTo(1);
+                .load("prototype").spiHello()).isEqualTo(1);
         assertThat(ServiceLoader.forClass(SpiPrototypeInterface.class)
-                .load("singleton").spiHello()).isEqualTo(2);
+                .load("prototype").spiHello()).isEqualTo(2);
     }
 
     @Test
