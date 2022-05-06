@@ -4,12 +4,10 @@ import com.luixtech.uidgenerator.core.utils.DockerUtils;
 import com.luixtech.uidgenerator.core.worker.model.WorkerNode;
 import com.luixtech.utilities.network.AddressUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.Validate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import static com.luixtech.uidgenerator.core.worker.model.WorkerNode.WORKER_NODE_TYPE_CONTAINER;
 import static com.luixtech.uidgenerator.core.worker.model.WorkerNode.WORKER_NODE_TYPE_PHYSICAL_MACHINE;
