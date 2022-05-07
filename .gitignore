@@ -35,6 +35,9 @@ target/
 .classpath
 .project
 
+# VS code project file
+.vscode/
+
 # NetBeans specific
 nbproject/private/
 nbbuild/
