@@ -12,22 +12,12 @@
     <version>1.0.8</version>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
-    <!--
-        *************************************************************************************
-        Properties definitions
-        *************************************************************************************
-    -->
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.version>3.2.1</maven.version>
         <start-class>com.luixtech.uidgenerator.usage.demo.LuixUidUsageDemoApplication</start-class>
     </properties>
-    <!--
-        *************************************************************************************
-        Dependencies definition
-        *************************************************************************************
-    -->
     <dependencies>
         <dependency>
             <groupId>com.luixtech</groupId>
@@ -74,11 +64,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
-    <!--
-        *************************************************************************************
-        Plugins definition
-        *************************************************************************************
-    -->
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>
         <plugins>
@@ -204,11 +189,6 @@
             </plugin>
         </plugins>
     </build>
-    <!--
-        *************************************************************************************
-        Profile
-        *************************************************************************************
-    -->
     <profiles>
         <profile>
             <id>test</id>
