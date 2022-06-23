@@ -19,12 +19,12 @@ import javax.annotation.Resource;
  * Spring filter
  */
 @RestController
-public class QueryController {
+public class WorkerNodeController {
 
     @Resource
     private IdGeneratorWorkerNodeRepository idGeneratorWorkerNodeRepository;
 
-    @GetMapping(value = "/api/query")
+    @GetMapping(value = "/api/worker-node/query")
     public Page<IdGeneratorWorkerNode> query(@Parameter(in = ParameterIn.QUERY, name = "filter", description = "query criteria",
             schema = @Schema(type = "string", defaultValue = "(id:1 and appId:'luix-uid-generator-usage-demo') or (id > 1)"))
                                              @Filter Specification<IdGeneratorWorkerNode> spec,
