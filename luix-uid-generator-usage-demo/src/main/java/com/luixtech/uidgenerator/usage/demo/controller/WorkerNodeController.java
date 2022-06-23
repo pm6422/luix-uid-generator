@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 /**
- * Spring filter
+ * spring filter
+ * https://github.com/turkraft/spring-filter
+ * <p>
+ * spring boot-jpa整合QueryDSL来简化复杂操作
+ * https://blog.csdn.net/liuchuanhong1/article/details/70244261/
  */
 @RestController
 public class WorkerNodeController {
