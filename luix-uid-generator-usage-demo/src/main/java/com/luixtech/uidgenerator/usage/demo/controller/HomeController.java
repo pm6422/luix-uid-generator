@@ -4,6 +4,9 @@ import com.luixtech.uidgenerator.core.uid.UidGenerator;
 import com.luixtech.uidgenerator.usage.demo.domain.IdGeneratorWorkerNode;
 import com.luixtech.uidgenerator.usage.demo.repository.IdGeneratorWorkerNodeRepository;
 import com.turkraft.springfilter.boot.Filter;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springdoc.core.SpringDocConfigProperties;
@@ -52,14 +55,11 @@ public class HomeController {
         return uid;
     }
 
-    /**
-     * https://github.com/turkraft/spring-filter
-     * <p>
-     * /api/search?filter=id:1 and appId:'luix-uid-generator-usage-demo'
-     */
-    @GetMapping(value = "/api/search")
-    public Page<IdGeneratorWorkerNode> search(@Filter Specification<IdGeneratorWorkerNode> spec,
-                                              @ParameterObject Pageable pageable) {
+    @GetMapping(value = "/api/query")
+    public Page<IdGeneratorWorkerNode> query(@Parameter(in = ParameterIn.QUERY, name = "filter", description = "query criteria",
+            schema = @Schema(type = "string", defaultValue = "(id:1 and appId:'luix-uid-generator-usage-demo') or (id > 1)"))
+                                             @Filter Specification<IdGeneratorWorkerNode> spec,
+                                             @ParameterObject Pageable pageable) {
         return idGeneratorWorkerNodeRepository.findAll(spec, pageable);
     }
 }
