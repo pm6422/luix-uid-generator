@@ -1,8 +1,6 @@
 package com.luixtech.uidgenerator.usage.demo.config.api;
 
 import com.luixtech.uidgenerator.usage.demo.config.ApplicationProperties;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.info.Info;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -26,13 +24,7 @@ import static org.springdoc.core.Constants.SPRINGDOC_SHOW_ACTUATOR;
 @Slf4j
 @ConditionalOnProperty("springdoc.api-docs.enabled")
 @Configuration
-@SecurityScheme(
-        name = SpringDocConfiguration.AUTH,
-        type = SecuritySchemeType.HTTP,
-        scheme = "basic"
-)
 public class SpringDocConfiguration {
-    public static final String                        AUTH                    = "basicAuth";
     public static final String                        MANAGEMENT_GROUP_NAME   = "management";
     static final        String                        MANAGEMENT_TITLE_SUFFIX = "Management API";
     static final        String                        MANAGEMENT_DESCRIPTION  = "Management endpoints documentation";
