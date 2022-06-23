@@ -72,6 +72,26 @@ logging:
     org.mongodb.driver: WARN
     sun.rmi: WARN
     jdk.event.security: WARN
+springdoc: # https://springdoc.org/#migrating-from-springfox
+  api-docs:
+    enabled: true
+  show-actuator: true
 uid: # UID configuration, used by UidProperties
   worker:
     appId: ${spring.application.name}
+# ===================================================================
+# Application specific properties
+# ===================================================================
+application:
+  api-docs:
+    api-include-pattern: /api/**
+    open-api-include-pattern: /open-api/**
+    management-include-pattern: /management/**
+    title: LUI️✘ UID Generator Usage Demo
+    version: ${app.version}
+    terms-of-service-url:
+    contact-name: Louis
+    contact-url:
+    contact-email: louis@luixtech.com
+    license: Unlicensed
+    license-url:
