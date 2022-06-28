@@ -43,7 +43,6 @@ import java.util.Objects;
  */
 @Slf4j
 public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
-
     private static final String     COL_ID = "id";
     private final        String     tableName;
     private final        DSLContext dslContext;
@@ -55,7 +54,6 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
         this.tableName = tableName;
         this.dslContext = dslContext;
     }
-
     @Override
     public void createTableIfNotExist(boolean autoCreateTable) {
         String sql;
@@ -82,11 +80,9 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
                     + String.format(sql, tableName), e);
         }
     }
-
     public boolean tableExists(DSLContext context, String tableName) {
         return context.meta().getTables().stream().anyMatch(table -> table.getName().equalsIgnoreCase(tableName));
     }
-
     @Override
     public void insert(WorkerNode domain) {
         Record existingOne = dslContext.select(DSL.field(COL_ID)).from(tableName)
