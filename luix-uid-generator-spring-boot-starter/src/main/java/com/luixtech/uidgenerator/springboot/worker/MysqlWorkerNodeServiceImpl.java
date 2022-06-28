@@ -15,6 +15,32 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Objects;
 
+/**
+ * 不推荐写法如下：
+ * ##### SQL写法:
+ * SELECT count(*) FROM table WHERE a = 1 AND b = 2
+ *
+ * ##### Java写法:
+ * int nums = xxDao.countXxxxByXxx(params);
+ * if ( nums > 0 ) {
+ * 		//当存在时，执行这里的代码
+ * } else {
+ * 		//当不存在时，执行这里的代码
+ * }
+ *
+ * 推荐写法如下：
+ *
+ * ##### SQL写法:
+ * SELECT 1 FROM table WHERE a = 1 AND b = 2 LIMIT 1
+ *
+ * ##### Java写法:
+ * Integer exist = xxDao.existXxxxByXxx(params);
+ * if ( exist != NULL ) {
+ * 		//当存在时，执行这里的代码
+ * } else {
+ * 		//当不存在时，执行这里的代码
+ * }
+ */
 @Slf4j
 public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
 
@@ -63,7 +89,7 @@ public class MysqlWorkerNodeServiceImpl implements WorkerNodeService {
 
     @Override
     public void insert(WorkerNode domain) {
-        Record existingOne = dslContext.selectFrom(tableName)
+        Record existingOne = dslContext.select(DSL.field(COL_ID)).from(tableName)
                 .where("app_id = ?", domain.getId())
                 .and("host_name = ?", domain.getHostName())
                 .limit(1)

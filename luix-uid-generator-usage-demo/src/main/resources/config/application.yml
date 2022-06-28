@@ -66,7 +66,7 @@ server:
   port: 3333
 logging:
   level:
-    root: INFO
+    root: DEBUG
     org.springframework.boot.devtools.autoconfigure: INFO
     org.apache: WARN
     org.mongodb.driver: WARN
