@@ -1,4 +1,4 @@
-package com.luixtech.uidgenerator.usage.demo.domain;
+package com.luixtech.uidgenerator.usagedemo.domain;
 
 import lombok.Data;
 

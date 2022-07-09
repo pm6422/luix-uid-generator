@@ -1,4 +1,4 @@
-package com.luixtech.uidgenerator.usage.demo.config.api;
+package com.luixtech.uidgenerator.usagedemo.config.api;
 
 import org.springdoc.core.SpringDocConfigProperties;
 import org.springframework.beans.factory.annotation.Value;

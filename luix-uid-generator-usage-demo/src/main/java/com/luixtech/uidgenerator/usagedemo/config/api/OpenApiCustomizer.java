@@ -1,6 +1,6 @@
-package com.luixtech.uidgenerator.usage.demo.config.api;
+package com.luixtech.uidgenerator.usagedemo.config.api;
 
-import com.luixtech.uidgenerator.usage.demo.config.ApplicationProperties;
+import com.luixtech.uidgenerator.usagedemo.config.ApplicationProperties;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;

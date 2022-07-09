@@ -1,4 +1,4 @@
-package com.luixtech.uidgenerator.usage.demo.config;
+package com.luixtech.uidgenerator.usagedemo.config;
 
 import lombok.Data;
 import lombok.Getter;

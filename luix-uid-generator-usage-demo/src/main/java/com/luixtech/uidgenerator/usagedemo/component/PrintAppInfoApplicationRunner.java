@@ -1,4 +1,4 @@
-package com.luixtech.uidgenerator.usage.demo.component;
+package com.luixtech.uidgenerator.usagedemo.component;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

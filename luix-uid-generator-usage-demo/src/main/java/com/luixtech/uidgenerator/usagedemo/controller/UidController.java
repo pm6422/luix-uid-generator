@@ -1,4 +1,4 @@
-package com.luixtech.uidgenerator.usage.demo.controller;
+package com.luixtech.uidgenerator.usagedemo.controller;
 
 import com.luixtech.uidgenerator.core.uid.UidGenerator;
 import lombok.extern.slf4j.Slf4j;

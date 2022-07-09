@@ -16,7 +16,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.version>3.2.1</maven.version>
-        <start-class>com.luixtech.uidgenerator.usage.demo.LuixUidUsageDemoApplication</start-class>
+        <start-class>com.luixtech.uidgenerator.usagedemo.LuixUidUsageDemoApplication</start-class>
     </properties>
     <dependencies>
         <dependency>

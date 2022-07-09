@@ -1,6 +1,6 @@
-package com.luixtech.uidgenerator.usage.demo.config.api;
+package com.luixtech.uidgenerator.usagedemo.config.api;
 
-import com.luixtech.uidgenerator.usage.demo.config.ApplicationProperties;
+import com.luixtech.uidgenerator.usagedemo.config.ApplicationProperties;
 import io.swagger.v3.oas.models.info.Info;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -27,10 +27,10 @@ import static org.springdoc.core.Constants.SPRINGDOC_SHOW_ACTUATOR;
 public class SpringDocConfiguration {
     public static final String                        MANAGEMENT_GROUP_NAME   = "management";
     static final        String                        MANAGEMENT_TITLE_SUFFIX = "Management API";
-    static final        String                        MANAGEMENT_DESCRIPTION  = "Management endpoints documentation";
-    private final       ApplicationProperties.ApiDocs apiDocsProperties;
+    static final  String                        MANAGEMENT_DESCRIPTION  = "Management endpoints documentation";
+    private final ApplicationProperties.ApiDocs apiDocsProperties;
     @Value("${spring.application.name}")
-    private             String                        appName;
+    private       String                        appName;
 
     static {
         SpringDocUtils.getConfig().replaceWithClass(ByteBuffer.class, String.class);

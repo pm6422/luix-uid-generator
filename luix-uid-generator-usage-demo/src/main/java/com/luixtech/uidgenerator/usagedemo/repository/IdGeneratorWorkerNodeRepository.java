@@ -1,6 +1,6 @@
-package com.luixtech.uidgenerator.usage.demo.repository;
+package com.luixtech.uidgenerator.usagedemo.repository;
 
-import com.luixtech.uidgenerator.usage.demo.domain.IdGeneratorWorkerNode;
+import com.luixtech.uidgenerator.usagedemo.domain.IdGeneratorWorkerNode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

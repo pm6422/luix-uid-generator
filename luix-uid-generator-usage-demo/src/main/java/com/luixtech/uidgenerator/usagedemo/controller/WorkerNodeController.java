@@ -1,7 +1,7 @@
-package com.luixtech.uidgenerator.usage.demo.controller;
+package com.luixtech.uidgenerator.usagedemo.controller;
 
-import com.luixtech.uidgenerator.usage.demo.domain.IdGeneratorWorkerNode;
-import com.luixtech.uidgenerator.usage.demo.repository.IdGeneratorWorkerNodeRepository;
+import com.luixtech.uidgenerator.usagedemo.domain.IdGeneratorWorkerNode;
+import com.luixtech.uidgenerator.usagedemo.repository.IdGeneratorWorkerNodeRepository;
 import com.turkraft.springfilter.boot.Filter;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
